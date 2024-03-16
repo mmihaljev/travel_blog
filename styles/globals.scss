@@ -67,3 +67,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.react-multi-carousel-dot--active button{
+  background-color: rgb(215, 34, 149);
+}
+
+.react-multiple-carousel__arrow:hover {
+  background: rgba(215, 34, 149);
+}

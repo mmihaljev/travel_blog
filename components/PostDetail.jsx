@@ -1,8 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import Categories from './Categories';
+import { TableOfContents } from '.';
+import RelatedPosts from './RelatedPosts';
+import Link from 'next/link';
 
 const PostDetail = ({ post }) => {
+
+  const headingsList = post.content.raw.children
+    .filter((typeObj) => typeObj.type === 'heading-three')
+    .map((typeObj) => ({
+      id: `${typeObj.children[0].text.replace(/\s+/g, '-').toLowerCase()}`,
+      text: typeObj.children[0].text,
+    }));
+
   const getContentFragment = (index, text, obj, type) => {
     let modifiedText = text;
 
@@ -22,7 +33,8 @@ const PostDetail = ({ post }) => {
 
     switch (type) {
       case 'heading-three':
-        return <h3 key={index} className="text-xl font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h3>;
+        const uniqueClassId = `${text[0].replace(/\s+/g, '-').toLowerCase()}`;
+        return <h3 key={index} id={uniqueClassId} className="text-xl font-semibold mb-4 scroll-mt-32">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h3>;
       case 'paragraph':
         return <p key={index} className="mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</p>;
       case 'heading-four':
@@ -63,18 +75,33 @@ const PostDetail = ({ post }) => {
         </div>
         <div className="grid-cols-10 grid-flow-col gap-16 grid">
           <div className="col-span-3">
-            <Categories/>
+            <TableOfContents headings={headingsList}/>
           </div>
           <div className="px-4 lg:px-0 col-span-7">
             {post.content.raw.children.map((typeObj, index) => {
               const children = typeObj.children.map((item, itemindex) => getContentFragment(itemindex, item.text, item));
-
               return getContentFragment(index, children, typeObj, typeObj.type);
             })}
           </div>
         </div>
+        <div className="grid-cols-10 grid-flow-col gap-16 grid my-40">
+          <div className="col-span-3 text-left justify-start">
+            <h1 className="mb-6 text-4xl font-bold text-left">Tražiš još ideja za putovanje?</h1>
+            <h3 className="mb-32 text-2xl font-normal text-left text-gray-600">Pogledaj ove slične blogove</h3>
+            <Link  href={`/category/${post.categories[0].slug}`} className="mb-16 text-xl font-normal text-left text-gray-600 flex">
+              <span className="flex group hover:text-pink-500 duration-300">
+                Pogledaj sve iz {post.categories[0].slug}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 ml-4 mt-1 group-hover:w-12 duration-300">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+          <div className="h-40 w-full col-span-7">
+            <RelatedPosts categories={post.categories[0].slug} slug={post.slug}/>
+          </div>
+        </div>
       </div>
-
     </>
   );
 };

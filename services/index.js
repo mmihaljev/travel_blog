@@ -69,6 +69,10 @@ export const getRecentPosts = async () => {
       featuredImage {
         url
       }
+      categories {
+        name
+        slug
+      }
       createdAt
       slug
     }
@@ -79,12 +83,12 @@ export const getRecentPosts = async () => {
   return results.posts;
 }
 
-export const getSimilarPosts = async (categories, slug) => {
+export const getSimilarPosts = async (category, slug) => {
   const query = gql`
-    query GetPostDetails($slug: String!, $categories: [String!]) {
+    query GetSimilarPosts($slug: String!, $category: String!) {
       posts (
-        where: {slug_not: $slug, AND: {categories_some: {slug_in: $categories}}}
-        last: 3
+        where: {slug_not: $slug, categories_some: {slug: $category}}
+        last: 5
       ) {
         title
         featuredImage {
@@ -94,9 +98,9 @@ export const getSimilarPosts = async (categories, slug) => {
         slug
       }
     }
-  `
+  `;
 
-  const results = await request(graphqlAPI, query, { categories, slug });
+  const results = await request(graphqlAPI, query, { slug, category });
 
   return results.posts;
 }
@@ -127,6 +131,10 @@ export const getFeaturedPosts = async () => {
         slug
         createdAt
         excerpt
+        categories {
+          name
+          slug
+        }
       }
     }   
   `;

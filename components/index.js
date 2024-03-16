@@ -7,3 +7,4 @@ export { default as PostDetail } from './PostDetail';
 export { default as Author } from './Author';
 export { default as FeaturedPostCard } from './FeaturedPostCard';
 export { default as SearchBar } from './SearchBar';
+export { default as TableOfContents } from './TableOfContents';
