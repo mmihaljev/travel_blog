@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { getCategories } from '@/services';
 import { FeaturedPosts } from '@/sections';
 import { SearchBar } from '.';
-import logo from '../public/mimlogo.png';
 
 const Header = ({ textColor }) => {
   const [categories, setCategories] = useState([]);
@@ -24,16 +23,15 @@ const Header = ({ textColor }) => {
           <Link href="/">
             <div className="flex items-center">
               <img
-                src={logo}
+                src={'/mimlogo.png'}
                 alt="Logo"
-                className="h-10 w-auto mr-2"
+                className="h-16 w-auto mr-2"
               />
               <span
                 className={
-                  'mt-2 cursor-pointer font-bold text-4xl ' + textColor
-                }
-              >
-                TravelBlog
+                  'cursor-pointer font-normal text-2xl ' + textColor
+                }>
+                MIMTravel
               </span>
             </div>
           </Link>
