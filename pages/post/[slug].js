@@ -5,8 +5,9 @@ import {getPosts, GetPostDetails} from '../../services';
 import {PostDetail, Categories, PostWidget, Author, Header} from '../../components';
 
 const PostDetails = ({ post }) => {
+
   return (
-    <div className="container absolute w-screen max-w-none">
+    <div className="container absolute lg:w-screen lg:max-w-none">
         <Header textColor={"text-black"}/>
         <div className="mt-28 mx-32">
             <div>

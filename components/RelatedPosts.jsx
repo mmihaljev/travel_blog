@@ -38,7 +38,7 @@ const RelatedPosts = ( {categories, slug} ) => {
 
   return (
     <div className="w-full">
-      <Carousel infinite showDots={true} responsive={responsive}>
+      <Carousel infinite showDots={true} responsive={responsive} autoPlay={true} autoPlaySpeed={3000}>
         {relatedPosts.map((post) => (
           <PostCard post={post}/>
           ))

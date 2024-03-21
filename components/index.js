@@ -8,3 +8,7 @@ export { default as Author } from './Author';
 export { default as FeaturedPostCard } from './FeaturedPostCard';
 export { default as SearchBar } from './SearchBar';
 export { default as TableOfContents } from './TableOfContents';
+export { default as PostListCard } from './PostListCard';
+export { default as FeaturedPosts } from './FeaturedPosts';
+export { default as Loading } from './Loading';
+export { default as HamburgerMenu } from './HamburgerMenu';

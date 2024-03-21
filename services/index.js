@@ -96,6 +96,7 @@ export const getSimilarPosts = async (category, slug) => {
         }
         createdAt
         slug
+        cijena
       }
     }
   `;
@@ -120,16 +121,42 @@ export const getCategories = async () => {
   return results.categories;
 }
 
+export const getCategoryPosts = async (category) => {
+  const query = gql`
+    query getCategoryPosts($category: String!) {
+      posts (
+        where: {categories_some: {slug: $category}}
+        last: 5
+      ) {
+        title
+        featuredImage {
+          url
+        }
+        createdAt
+        slug
+        excerpt
+        pocetakPutovanja
+        zavrsetakPutovanja
+        cijena
+        lokacije
+      }
+    }
+  `;
+
+  const results = await request(graphqlAPI, query, { category });
+
+  return results.posts;
+}
+
 export const getFeaturedPosts = async () => {
   const query = gql`
     query GetCategoryPost() {
       posts(where: {featuredPost: true}) {
-        featuredImage {
-          url
-        }
         title
         slug
-        createdAt
+        video {
+          url
+        }
         excerpt
         categories {
           name

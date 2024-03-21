@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-import { FeaturedPostCard, Header } from '../components';
+import { FeaturedPostCard, Header, Loading } from '.';
 import { getFeaturedPosts } from '../services';
 
 const responsive = {
@@ -26,25 +26,29 @@ const responsive = {
 
 const FeaturedPosts = () => {
   const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [Loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getFeaturedPosts().then((result) => {
       setFeaturedPosts(result);
-      setDataLoaded(true);
+      setLoaded(true);
     });
   }, []);
 
-  return (
-    <div>
-      <Carousel infinite showDots={true} responsive={responsive}>
-        {featuredPosts.map((post, index) => (
-          <FeaturedPostCard key={index} post={post} />
-          ))
-        }
-      </Carousel>
-    </div>
-  );
+  if (!Loaded) {
+    Loading();
+  } else {
+    return (
+      <div>
+        <Carousel infinite showDots={true} responsive={responsive} autoPlay={true} autoPlaySpeed={3000}>
+          {featuredPosts.map((post, index) => (
+            <FeaturedPostCard key={index} post={post} />
+            ))
+          }
+        </Carousel>
+      </div>
+    );
+  }
 };
 
 export default FeaturedPosts;
